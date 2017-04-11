@@ -18,6 +18,22 @@ describe Gitlab::Client do
       end
     end
 
+    context 'with literal project ID passed' do
+      before do
+        stub_get("/projects/gitlab-org%2Fgitlab-ce/issues", "project_issues")
+        @issues = Gitlab.issues('gitlab-org/gitlab-ce')
+      end
+
+      it "should get the correct resource" do
+        expect(a_get("/projects/gitlab-org%2Fgitlab-ce/issues")).to have_been_made
+      end
+
+      it "should return a paginated response of project's issues" do
+        expect(@issues).to be_a Gitlab::PaginatedResponse
+        expect(@issues.first.project_id).to eq(3)
+      end
+    end
+
     context "without project ID passed" do
       before do
         stub_get("/issues", "issues")
@@ -115,6 +131,38 @@ describe Gitlab::Client do
     end
 
     it "should return information about an reopened issue" do
+      expect(@issue.project_id).to eq(3)
+      expect(@issue.assignee.name).to eq("Jack Smith")
+    end
+  end
+
+  describe ".subscribe_to_issue" do
+    before do
+      stub_post("/projects/3/issues/33/subscribe", "issue")
+      @issue = Gitlab.subscribe_to_issue(3, 33)
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/3/issues/33/subscribe")).to have_been_made
+    end
+
+    it "should return information about the subscribed issue" do
+      expect(@issue.project_id).to eq(3)
+      expect(@issue.assignee.name).to eq("Jack Smith")
+    end
+  end
+
+  describe ".unsubscribe_from_issue" do
+    before do
+      stub_post("/projects/3/issues/33/unsubscribe", "issue")
+      @issue = Gitlab.unsubscribe_from_issue(3, 33)
+    end
+
+    it "should get the correct resource" do
+      expect(a_post("/projects/3/issues/33/unsubscribe")).to have_been_made
+    end
+
+    it "should return information about the unsubscribed issue" do
       expect(@issue.project_id).to eq(3)
       expect(@issue.assignee.name).to eq("Jack Smith")
     end

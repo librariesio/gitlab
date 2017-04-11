@@ -1,14 +1,29 @@
 require "spec_helper"
 
 describe Gitlab::Client do
+  describe ".file_contents" do
+    before do
+      stub_get("/projects/3/repository/files/Gemfile/raw?ref=master", "raw_file")
+      @file_contents = Gitlab.file_contents(3, "Gemfile")
+    end
+
+    it "should get the correct resource" do
+      expect(a_get("/projects/3/repository/files/Gemfile/raw?ref=master")).to have_been_made
+    end
+
+    it "should return file contents" do
+      expect(@file_contents).to eq("source 'https://rubygems.org'\ngem 'rails', '4.1.2'\n")
+    end
+  end
+
   describe ".get_file" do
     before do
-      stub_get("/projects/3/repository/files?file_path=README.md&ref=master", "get_repository_file")
+      stub_get("/projects/3/repository/files/README%2Emd?ref=master", "get_repository_file")
       @file = Gitlab.get_file(3, 'README.md', 'master')
     end
 
     it "should create the correct resource" do
-      expect(a_get("/projects/3/repository/files?file_path=README.md&ref=master")).to have_been_made
+      expect(a_get("/projects/3/repository/files/README%2Emd?ref=master")).to have_been_made
     end
 
     it "should return the base64 encoded file" do

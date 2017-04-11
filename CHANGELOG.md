@@ -2,12 +2,27 @@
 
 ### Unreleased
 
+### 4.0.0 (10/04/2017)
+- Adds ability to create commits in a repository - (@logicminds)
 - Remove Ruby 1.x support from the project - (@orta)
 - Add `star_project` and `unstar_project` methods. (@connorshea)
 - Lock terminal-table to prevent build failures on Ruby 1.9/2.0. (@connorshea)
 - Update documentation to link to docs.gitlab.com instead of the GitHub mirror for GitLab CE. (@connorshea)
 - Add method `share_project_with_group` (@danhalligan)
 - Allow to retrieve `ssh_keys` for a specific user(@dirker)
+- Allow issues to use NAMESPACE/REPO identifier (@brodock)
+- Add issues subscribe/unsubscribe (@newellista)
+- Add merge_requests subscribe/unsubscribe (@newellista)
+- Updated `deploy_key` endpoints (@epintozzi)
+- Add milestone/merge_requests (API V4 only) (@joren)
+- Rename "git hook" to "push rule". (@asedge)
+- Change project fork endpoint for v4 API. (@asedge)
+- Block/unblock user now uses POST instead of PUT. (@asedge)
+- Project ID can also be a string (namespace/project_name). (@bergholdt)
+- Support pipeline. (@bergholdt)
+- Add methods to disable and enable deploy keys on projects. (@buzzdeee)
+- Add method to fetch issues a merge request will close. (@joren)
+- Fix `get_file` and `file_contents` methods to work with APIv4. (@asedge)
 
 ### 3.7.0 (16/08/2016)
 
