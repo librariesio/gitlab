@@ -1,5 +1,5 @@
 require 'gitlab'
-require 'terminal-table/import'
+# require 'terminal-table/import'
 require_relative 'cli_helpers'
 require_relative 'shell'
 
